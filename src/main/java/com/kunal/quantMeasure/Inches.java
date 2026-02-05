@@ -1,9 +1,10 @@
 package com.kunal.quantMeasure;
 
-public class Feet {
+public class Inches {
+
     private final double value;
 
-    public Feet(double value) {
+    public Inches(double value) {
         this.value = value;
     }
 
@@ -17,14 +18,12 @@ public class Feet {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Feet other = (Feet) obj;
+        Inches other = (Inches) obj;
         return Double.compare(this.value, other.value) == 0;
     }
 
-
     @Override
     public String toString() {
-        return "Feet { value=" + value + "}";
+        return "Inches { value=" + value + "}";
     }
-
 }
