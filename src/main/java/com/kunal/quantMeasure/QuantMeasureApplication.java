@@ -8,35 +8,22 @@ public class QuantMeasureApplication {
 
 	public static void main(String[] args) {
 		//SpringApplication.run(QuantMeasureApplication.class, args);
-
-		demonstrateFeetEquality();
-		demonstrateInchEquality();
+		demonstrateLengthEquality();
 	}
 
 	/**
-	 * This method is used for demonstrating the equality between two objects of Feet class.
-	 * The values for the instances of Feet are hardcoded.
+	 * This method has 2 length object that accepts 2 inputs.
+	 * First inout is the value.
+	 * And the second is the type of value which has been defined using an Enum.
+	 * After that both object are compared for equality.
 	 */
-	public static void demonstrateFeetEquality() {
-		Feet feet1 = new Feet(10.0);
-		Feet feet2 = new Feet(11.0);
-		if (feet1.equals(feet2))
-			System.out.println("Feet1: " + feet1.toString() + " and Feet2: " + feet2.toString() + " are equal.");
+	public static void demonstrateLengthEquality() {
+		Length length1 = new Length(2.8, Length.LengthUnit.FEET);
+		Length length2 = new Length(33.6, Length.LengthUnit.INCHES);
+		if (length1.equals(length2))
+			System.out.println("Length1: " + length1.toString() + " and Length2: " + length2.toString() + " are equal.");
 		else
-			System.out.println("Feet1: " + feet1.toString() + " and Feet2: " + feet2.toString() + " are not equal.");
-	}
-
-	/**
-	 * This method is used for demonstrating the equality between two objects of Inches class.
-	 * The values for the instances of Inches are hardcoded.
-	 */
-	public static void demonstrateInchEquality() {
-		Inches inch1 = new Inches(10.0);
-		Inches inch2 = new Inches(10.0);
-		if (inch1.equals(inch2))
-			System.out.println("Inch1: " + inch1.toString() + " and Inch2: " + inch2.toString() + " are equal.");
-		else
-			System.out.println("Inch1: " + inch1.toString() + " and Inch2: " + inch2.toString() + " are not equal.");
+			System.out.println("Length1: " + length1.toString() + " and Length2: " + length2.toString() + " are not equal.");
 	}
 
 }
