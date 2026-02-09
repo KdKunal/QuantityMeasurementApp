@@ -1,5 +1,8 @@
 package com.kunal.quantMeasure;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class Length {
     private double value;
     private LengthUnit unit;
@@ -9,7 +12,9 @@ public class Length {
     public enum LengthUnit {
 
         FEET(12.0),
-        INCHES(1.0);
+        INCHES(1.0),
+        YARDS(36),
+        CENTIMETERS(0.393701);
 
         private double conversionFactor;
 
@@ -27,14 +32,16 @@ public class Length {
         this.unit = unit;
     }
 
-    private double convertToBaseUnit() {
-        return value * unit.getConversionFactor();
+    private BigDecimal convertToBaseUnit() {
+        return BigDecimal.valueOf(value)
+                .multiply(BigDecimal.valueOf(unit.getConversionFactor()));
     }
 
     public boolean compare(Length otherLengthObject) {
-        double thisLength = this.convertToBaseUnit();
-        double thatLength = otherLengthObject.convertToBaseUnit();
-        return Math.abs(thisLength-thatLength) < EPSILON;
+        BigDecimal thisLength = this.convertToBaseUnit().setScale(2, RoundingMode.DOWN);
+        BigDecimal thatLength = otherLengthObject.convertToBaseUnit().setScale(2, RoundingMode.DOWN);
+        return thisLength.subtract(thatLength).abs()
+                .compareTo(BigDecimal.valueOf(0.000001)) <= 0;
     }
 
     @Override
