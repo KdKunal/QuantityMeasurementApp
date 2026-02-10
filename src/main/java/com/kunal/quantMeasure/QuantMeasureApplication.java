@@ -8,8 +8,9 @@ public class QuantMeasureApplication {
 
 	public static void main(String[] args) {
 		//SpringApplication.run(QuantMeasureApplication.class, args);
-		demonstrateLengthEquality_CMToInch();
-		demonstrateLengthEquality_YardToInch();
+		//demonstrateLengthEquality_CMToInch();
+		//demonstrateLengthEquality_YardToInch();
+		demonstrateConversionFromYardToFeet();
 	}
 
 	/**
@@ -34,6 +35,11 @@ public class QuantMeasureApplication {
 			System.out.println("Length1: " + length1.toString() + " and Length2: " + length2.toString() + " are equal.");
 		else
 			System.out.println("Length1: " + length1.toString() + " and Length2: " + length2.toString() + " are not equal.");
+	}
+
+	public static void demonstrateConversionFromYardToFeet() {
+		Length length = new Length(7, Length.LengthUnit.FEET);
+		System.out.println("7 Feet in Centimeters is: " + length.convertTo(length, Length.LengthUnit.CENTIMETERS));
 	}
 
 }

@@ -7,16 +7,14 @@ public class Length {
     private double value;
     private LengthUnit unit;
 
-    private static final double EPSILON = 1e-9;
-
     public enum LengthUnit {
 
         FEET(12.0),
         INCHES(1.0),
         YARDS(36),
-        CENTIMETERS(0.393701);
+        CENTIMETERS(1.0/2.54);
 
-        private double conversionFactor;
+        private final double conversionFactor;
 
         LengthUnit(double conversionFactor){
             this.conversionFactor = conversionFactor;
@@ -32,14 +30,18 @@ public class Length {
         this.unit = unit;
     }
 
+    public double getValue() {
+        return value;
+    }
+
     private BigDecimal convertToBaseUnit() {
         return BigDecimal.valueOf(value)
                 .multiply(BigDecimal.valueOf(unit.getConversionFactor()));
     }
 
     public boolean compare(Length otherLengthObject) {
-        BigDecimal thisLength = this.convertToBaseUnit().setScale(2, RoundingMode.DOWN);
-        BigDecimal thatLength = otherLengthObject.convertToBaseUnit().setScale(2, RoundingMode.DOWN);
+        BigDecimal thisLength = this.convertToBaseUnit().setScale(2, RoundingMode.UP);
+        BigDecimal thatLength = otherLengthObject.convertToBaseUnit().setScale(2, RoundingMode.UP);
         return thisLength.subtract(thatLength).abs()
                 .compareTo(BigDecimal.valueOf(0.000001)) <= 0;
     }
@@ -53,6 +55,28 @@ public class Length {
         Length length = (Length) obj;
         return this.compare(length);
 
+    }
+
+    public Length convertTo(Length source, LengthUnit targetUnit) {
+        performValidation(source, targetUnit);
+        if ((!(targetUnit.equals(source.unit)))) {
+            BigDecimal convertedValue = source.convertToBaseUnit();
+            convertedValue = convertedValue.divide(
+                    BigDecimal.valueOf(targetUnit.conversionFactor),
+                    2,
+                    RoundingMode.HALF_UP
+            );
+            return new Length(convertedValue.doubleValue(), targetUnit);
+        }
+        return new Length(source.value, source.unit);
+    }
+
+    private void performValidation(Length source, LengthUnit targetUnit) {
+        if (!(Double.isFinite(source.value))) {
+            throw new IllegalArgumentException("The value passed for conversion is not finite.");
+        } else if (source.unit == null || targetUnit == null) {
+            throw new IllegalArgumentException("Source or Target unit Missing.");
+        }
     }
 
     @Override
