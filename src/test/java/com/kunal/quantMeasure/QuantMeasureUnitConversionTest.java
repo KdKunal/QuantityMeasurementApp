@@ -17,7 +17,7 @@ public class QuantMeasureUnitConversionTest {
     }
 
     @Test
-    public void testEquality_FeetToInchConversion() {
+    public void testConversion_FeetToInchConversion() {
         Length length = new Length(7, Length.LengthUnit.FEET);
         Length convertedLength = length.convertTo(length, Length.LengthUnit.INCHES);
         assertEquals(84.0, convertedLength.getValue());
